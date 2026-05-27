@@ -265,7 +265,7 @@ with tab1:
         style_fig(fig, height=460)
         fig.update_yaxes(title_text=target_label)
         fig.update_xaxes(title_text="Date")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
         # Forecast summary
         sm_cols = st.columns(3)
@@ -305,7 +305,7 @@ with tab1:
         bt_df = pd.DataFrame([{"Model": k, "Avg Error (MAE)": round(_eval(v)[0],1),
                                "Accuracy %": round(100 - _eval(v)[1], 2)}
                               for k, v in models_bt.items()])
-        st.dataframe(bt_df, use_container_width=True, hide_index=True)
+        st.dataframe(bt_df, width="stretch", hide_index=True)
 
         forecast_df = pd.DataFrame({
             "date": future_idx, "forecast": ensemble.round(2),
@@ -325,7 +325,7 @@ with tab2:
                     color_continuous_scale=[[0, "#231410"], [0.3, MOCHA], [0.6, CARAMEL], [1, GOLD]],
                     aspect="auto", labels=dict(color=target_label, x="Hour of day", y=""))
     style_fig(fig, height=380, legend=False)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     c1, c2 = st.columns(2)
     with c1:
@@ -337,7 +337,7 @@ with tab2:
         style_fig(fig, height=340, legend=False)
         fig.update_yaxes(title_text=target_label)
         fig.update_xaxes(title_text="Hour", dtick=1)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
         top_hour = int(hourly.sort_values(target_col, ascending=False).iloc[0]["hour"])
         st.markdown(f"<div class='insight'>☕ Busiest hour: <b>{top_hour:02d}:00</b> — staff up before this window.</div>",
                     unsafe_allow_html=True)
@@ -351,7 +351,7 @@ with tab2:
         style_fig(fig, height=340, legend=False)
         fig.update_yaxes(title_text=target_label)
         fig.update_xaxes(title_text="")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
         top_dow = dow_d.sort_values(target_col, ascending=False).iloc[0]["dow"]
         st.markdown(f"<div class='insight'>📅 Busiest day: <b>{top_dow}</b></div>", unsafe_allow_html=True)
 
@@ -370,7 +370,7 @@ with tab3:
     style_fig(fig, height=380)
     fig.update_yaxes(title_text=f"Weekly {target_label}")
     fig.update_xaxes(title_text="")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     c1, c2 = st.columns(2)
     with c1:
@@ -381,7 +381,7 @@ with tab3:
         fig.update_traces(textfont=dict(color=INK, size=13, family="Georgia"),
                           textposition="outside", textinfo="label+percent")
         style_fig(fig, height=380, legend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
     with c2:
         st.markdown("#### Store totals")
         sr = store_rev.sort_values("revenue").copy()
@@ -391,7 +391,7 @@ with tab3:
         style_fig(fig, height=380, legend=False)
         fig.update_xaxes(title_text="Revenue ($)")
         fig.update_yaxes(title_text="")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     csv_dl(store_rev, "stores_report")
 
@@ -408,7 +408,7 @@ with tab4:
         style_fig(fig, height=420, legend=False)
         fig.update_xaxes(title_text="Revenue ($)")
         fig.update_yaxes(title_text="")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
     with c2:
         st.markdown("#### Top 12 products")
         top = (df.groupby("product_type")["revenue"].sum()
@@ -419,7 +419,7 @@ with tab4:
         style_fig(fig, height=420, legend=False)
         fig.update_xaxes(title_text="Revenue ($)")
         fig.update_yaxes(title_text="")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     st.markdown("#### Category trend (weekly)")
     cd = (df.groupby([pd.Grouper(key="transaction_date", freq="W"), "product_category"])["revenue"]
@@ -429,14 +429,14 @@ with tab4:
     style_fig(fig, height=380)
     fig.update_yaxes(title_text="Revenue ($)")
     fig.update_xaxes(title_text="")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     csv_dl(cat, "category_revenue")
 
 # ===== Tab 5: Data =====
 with tab5:
     st.subheader("🗂 Filtered transactions")
-    st.dataframe(df.head(2000), use_container_width=True, height=460)
+    st.dataframe(df.head(2000), width="stretch", height=460)
     csv_dl(df, "afficionado_filtered_transactions", "⬇ Download full filtered CSV")
 
 # ===== Tab 6: Reports (downloads hub) =====
