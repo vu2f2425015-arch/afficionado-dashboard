@@ -47,63 +47,95 @@ BTN_HOVER     = LATTE
 PALETTE = [GOLD, LATTE, CARAMEL, CREAM, "#E0C097", MOCHA, "#8B5E3C", "#5D3A1F"]
 
 # Plotly layout helper — themed
-def style_fig(fig, height=380, legend=True):
+def style_fig(fig, height=300, legend=True):
     fig.update_layout(
         height=height,
         paper_bgcolor=SURFACE,
         plot_bgcolor=SURFACE,
-        font=dict(family="Georgia, serif", color=INK, size=13),
-        title=dict(text="", font=dict(family="Georgia, serif", color=HEADING, size=16)),
-        margin=dict(l=40, r=20, t=40, b=40),
-        xaxis=dict(gridcolor=GRID, linecolor=BORDER, tickfont=dict(color=INK), title_font=dict(color=INK)),
-        yaxis=dict(gridcolor=GRID, linecolor=BORDER, tickfont=dict(color=INK), title_font=dict(color=INK)),
+        font=dict(family="Georgia, serif", color=INK, size=12),
+        title=dict(text="", font=dict(family="Georgia, serif", color=HEADING, size=15)),
+        margin=dict(l=10, r=10, t=36, b=50),
+        xaxis=dict(gridcolor=GRID, linecolor=BORDER, tickfont=dict(color=INK, size=11),
+                   title_font=dict(color=INK, size=12), automargin=True),
+        yaxis=dict(gridcolor=GRID, linecolor=BORDER, tickfont=dict(color=INK, size=11),
+                   title_font=dict(color=INK, size=12), automargin=True),
         legend=dict(
-            orientation="h", y=-0.18, x=0.5, xanchor="center",
-            bgcolor=LEGEND_BG,
-            bordercolor=BORDER, borderwidth=1,
-            font=dict(color=INK, size=12, family="Georgia, serif"),
+            orientation="h", y=-0.25, x=0.5, xanchor="center",
+            bgcolor=LEGEND_BG, bordercolor=BORDER, borderwidth=1,
+            font=dict(color=INK, size=11, family="Georgia, serif"),
+            itemwidth=30,
         ) if legend else dict(),
+        autosize=True,
     )
+    fig.update_xaxes(tickangle=-30)
     return fig
 
 st.markdown(f"""
 <style>
+/* ── Base ── */
 .stApp {{ background: {PAPER}; color: {INK}; font-family: Georgia, 'Times New Roman', serif; }}
 section[data-testid="stSidebar"] {{ background: {SIDEBAR_BG}; }}
 section[data-testid="stSidebar"] * {{ color: {INK} !important; }}
 h1, h2, h3, h4 {{ font-family: Georgia, serif; color: {HEADING} !important; letter-spacing: .3px; }}
 p, span, label, li {{ color: {INK} !important; }}
+
+/* ── Metric cards ── */
 .metric-card {{
   background: {METRIC_BG};
-  border: 1px solid {BORDER}; border-radius: 16px; padding: 18px 22px;
-  box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  border: 1px solid {BORDER}; border-radius: 16px; padding: 14px 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.18); margin-bottom: 10px;
 }}
-.metric-card .label {{ color: {SUBTEXT} !important; font-size: 12px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; }}
-.metric-card .value {{ color: {HEADING} !important; font-size: 28px; font-weight: 700; margin-top: 6px; }}
+.metric-card .label {{ color: {SUBTEXT} !important; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; }}
+.metric-card .value {{ color: {HEADING} !important; font-size: 24px; font-weight: 700; margin-top: 4px; }}
+
+/* ── Hero ── */
 .hero {{
-  color: {CREAM}; padding: 36px 40px; border-radius: 20px; margin-bottom: 22px;
-  display: flex; align-items: center; gap: 28px;
+  color: {CREAM}; padding: 28px 32px; border-radius: 20px; margin-bottom: 18px;
+  display: flex; align-items: center; gap: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,.35);
 }}
-.hero h1 {{ color: #FFF6E6 !important; margin: 0; font-size: 34px; }}
-.hero p  {{ color: {LATTE} !important; margin: 6px 0 0 0; font-size: 15px; }}
-.hero .emoji {{ font-size: 72px; line-height: 1; filter: drop-shadow(0 4px 8px rgba(0,0,0,.4)); }}
-div[data-testid="stTabs"] button {{ font-family: Georgia, serif; color: {INK} !important; font-size: 15px; }}
+.hero h1 {{ color: #FFF6E6 !important; margin: 0; font-size: 28px; line-height: 1.2; }}
+.hero p  {{ color: {LATTE} !important; margin: 6px 0 0 0; font-size: 14px; }}
+.hero .emoji {{ font-size: 56px; line-height: 1; filter: drop-shadow(0 4px 8px rgba(0,0,0,.4)); flex-shrink: 0; }}
+
+/* ── Tabs ── */
+div[data-testid="stTabs"] button {{ font-family: Georgia, serif; color: {INK} !important; font-size: 14px; padding: 8px 12px !important; }}
 div[data-testid="stTabs"] button[aria-selected="true"] {{ color: {TAB_ACTIVE} !important; border-bottom: 3px solid {TAB_ACTIVE} !important; }}
+
+/* ── Misc ── */
 .stDataFrame {{ background: {SURFACE}; border-radius: 12px; }}
 .section-card {{
   background: {SURFACE}; border: 1px solid {BORDER}; border-radius: 16px;
-  padding: 18px 22px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  padding: 16px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.12);
 }}
 .insight {{
-  background: {INSIGHT_BG}; border-left: 4px solid {TAB_ACTIVE}; padding: 12px 16px;
+  background: {INSIGHT_BG}; border-left: 4px solid {TAB_ACTIVE}; padding: 10px 14px;
   border-radius: 8px; color: {INK} !important; font-size: 14px; margin-top: 10px;
 }}
 .stDownloadButton button, .stButton button {{
   background: {BTN_BG} !important; color: {BTN_FG} !important;
-  border-radius: 10px !important; border: none !important; font-family: Georgia, serif !important; font-weight: 600 !important;
+  border-radius: 10px !important; border: none !important;
+  font-family: Georgia, serif !important; font-weight: 600 !important;
+  width: 100% !important;
 }}
 .stDownloadButton button:hover, .stButton button:hover {{ background: {BTN_HOVER} !important; }}
+
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 768px) {{
+  .hero {{ flex-direction: column; text-align: center; padding: 20px 16px; gap: 12px; }}
+  .hero h1 {{ font-size: 20px !important; }}
+  .hero p  {{ font-size: 12px !important; }}
+  .hero .emoji {{ font-size: 44px; }}
+  .metric-card {{ padding: 10px 12px; }}
+  .metric-card .label {{ font-size: 10px; }}
+  .metric-card .value {{ font-size: 18px; }}
+  div[data-testid="stTabs"] button {{ font-size: 12px !important; padding: 6px 8px !important; }}
+  h2, h3 {{ font-size: 16px !important; }}
+  .insight {{ font-size: 12px; padding: 8px 10px; }}
+  .section-card {{ padding: 12px 14px; }}
+  /* Stack columns on mobile */
+  div[data-testid="column"] {{ min-width: 100% !important; }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -190,14 +222,17 @@ avg_ticket = total_rev / max(n_tx, 1)
 n_days_view = df["transaction_date"].nunique()
 daily_rev = total_rev / max(n_days_view, 1)
 
-cols = st.columns(5)
-for c, (label, value) in zip(cols, [
+kpi_data = [
     ("Total Revenue", f"${total_rev:,.0f}"),
     ("Items Sold",    f"{total_qty:,}"),
     ("Transactions",  f"{n_tx:,}"),
     ("Avg Ticket",    f"${avg_ticket:,.2f}"),
     ("Avg Daily Rev", f"${daily_rev:,.0f}"),
-]):
+]
+# Row 1: 3 cols, Row 2: 2 cols — works on both mobile and desktop
+r1 = st.columns(3)
+r2 = st.columns(2)
+for c, (label, value) in zip(r1 + r2, kpi_data):
     c.markdown(f"<div class='metric-card'><div class='label'>{label}</div><div class='value'>{value}</div></div>",
                unsafe_allow_html=True)
 
@@ -262,7 +297,7 @@ with tab1:
                                  y=[daily.values[-1], ensemble[0]],
                                  line=dict(color=GOLD, width=2, dash="dot"),
                                  showlegend=False, hoverinfo="skip"))
-        style_fig(fig, height=460)
+        style_fig(fig, height=400)
         fig.update_yaxes(title_text=target_label)
         fig.update_xaxes(title_text="Date")
         st.plotly_chart(fig, width="stretch")
@@ -324,17 +359,17 @@ with tab2:
     fig = px.imshow(heat_p,
                     color_continuous_scale=[[0, "#231410"], [0.3, MOCHA], [0.6, CARAMEL], [1, GOLD]],
                     aspect="auto", labels=dict(color=target_label, x="Hour of day", y=""))
-    style_fig(fig, height=380, legend=False)
+    style_fig(fig, height=300, legend=False)
     st.plotly_chart(fig, width="stretch")
 
-    c1, c2 = st.columns(2)
+    c1, c2 = st.columns([1, 1])
     with c1:
         st.markdown("#### Busiest hours")
         hourly = df.groupby("hour")[target_col].sum().reset_index()
         fig = px.bar(hourly, x="hour", y=target_col, color_discrete_sequence=[CARAMEL],
                      text_auto=".2s")
         fig.update_traces(textposition="outside", textfont=dict(color=INK, size=10))
-        style_fig(fig, height=340, legend=False)
+        style_fig(fig, height=300, legend=False)
         fig.update_yaxes(title_text=target_label)
         fig.update_xaxes(title_text="Hour", dtick=1)
         st.plotly_chart(fig, width="stretch")
@@ -348,7 +383,7 @@ with tab2:
         fig = px.bar(dow_d, x="dow", y=target_col, color_discrete_sequence=[MOCHA],
                      text_auto=".2s")
         fig.update_traces(textposition="outside", textfont=dict(color=INK, size=10))
-        style_fig(fig, height=340, legend=False)
+        style_fig(fig, height=300, legend=False)
         fig.update_yaxes(title_text=target_label)
         fig.update_xaxes(title_text="")
         st.plotly_chart(fig, width="stretch")
@@ -367,12 +402,12 @@ with tab3:
     fig = px.line(store_weekly, x="transaction_date", y=target_col, color="store_location",
                   color_discrete_sequence=PALETTE, markers=True)
     fig.update_traces(line=dict(width=3))
-    style_fig(fig, height=380)
+    style_fig(fig, height=300)
     fig.update_yaxes(title_text=f"Weekly {target_label}")
     fig.update_xaxes(title_text="")
     st.plotly_chart(fig, width="stretch")
 
-    c1, c2 = st.columns(2)
+    c1, c2 = st.columns([1, 1])
     with c1:
         st.markdown("#### Revenue share by store")
         store_rev = df.groupby("store_location")["revenue"].sum().reset_index()
@@ -380,7 +415,7 @@ with tab3:
                      color_discrete_sequence=PALETTE)
         fig.update_traces(textfont=dict(color=INK, size=13, family="Georgia"),
                           textposition="outside", textinfo="label+percent")
-        style_fig(fig, height=380, legend=False)
+        style_fig(fig, height=300, legend=False)
         st.plotly_chart(fig, width="stretch")
     with c2:
         st.markdown("#### Store totals")
@@ -388,7 +423,7 @@ with tab3:
         fig = px.bar(sr, x="revenue", y="store_location", orientation="h",
                      color_discrete_sequence=[CARAMEL], text_auto=".2s")
         fig.update_traces(textposition="outside", textfont=dict(color=INK))
-        style_fig(fig, height=380, legend=False)
+        style_fig(fig, height=300, legend=False)
         fig.update_xaxes(title_text="Revenue ($)")
         fig.update_yaxes(title_text="")
         st.plotly_chart(fig, width="stretch")
@@ -398,14 +433,14 @@ with tab3:
 # ===== Tab 4: Products =====
 with tab4:
     st.subheader("📦 Category & product mix")
-    c1, c2 = st.columns(2)
+    c1, c2 = st.columns([1, 1])
     with c1:
         st.markdown("#### Revenue by category")
         cat = df.groupby("product_category")["revenue"].sum().sort_values().reset_index()
         fig = px.bar(cat, x="revenue", y="product_category", orientation="h",
                      color_discrete_sequence=[MOCHA], text_auto=".2s")
         fig.update_traces(textposition="outside", textfont=dict(color=INK))
-        style_fig(fig, height=420, legend=False)
+        style_fig(fig, height=360, legend=False)
         fig.update_xaxes(title_text="Revenue ($)")
         fig.update_yaxes(title_text="")
         st.plotly_chart(fig, width="stretch")
@@ -416,7 +451,7 @@ with tab4:
         fig = px.bar(top, x="revenue", y="product_type", orientation="h",
                      color_discrete_sequence=[CARAMEL], text_auto=".2s")
         fig.update_traces(textposition="outside", textfont=dict(color=INK))
-        style_fig(fig, height=420, legend=False)
+        style_fig(fig, height=360, legend=False)
         fig.update_xaxes(title_text="Revenue ($)")
         fig.update_yaxes(title_text="")
         st.plotly_chart(fig, width="stretch")
@@ -426,7 +461,7 @@ with tab4:
             .sum().reset_index())
     fig = px.area(cd, x="transaction_date", y="revenue", color="product_category",
                   color_discrete_sequence=PALETTE)
-    style_fig(fig, height=380)
+    style_fig(fig, height=300)
     fig.update_yaxes(title_text="Revenue ($)")
     fig.update_xaxes(title_text="")
     st.plotly_chart(fig, width="stretch")
@@ -436,7 +471,7 @@ with tab4:
 # ===== Tab 5: Data =====
 with tab5:
     st.subheader("🗂 Filtered transactions")
-    st.dataframe(df.head(2000), width="stretch", height=460)
+    st.dataframe(df.head(2000), width="stretch", height=400)
     csv_dl(df, "afficionado_filtered_transactions", "⬇ Download full filtered CSV")
 
 # ===== Tab 6: Reports (downloads hub) =====
